@@ -6,4 +6,12 @@ public class LinkPair {
     public void assignWaypoints(){
 
     }
+    class Coordinate{
+        public int xCord;
+        public int yCord;
+        public Coordinate(int x, int y){
+            xCord = x;
+            yCord = y;
+        }
+    }
 }

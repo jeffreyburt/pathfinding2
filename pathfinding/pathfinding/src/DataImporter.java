@@ -6,8 +6,8 @@ import java.util.HashMap;
 
 public class DataImporter {
     public HashMap<Integer, Node> dataImporter(String dataFolder) {
-        HashMap<Integer, Node> hashtable = new HashMap<>();
-        //todo going to be difficult to iterate through this with just a hashtable
+        HashMap<Integer, Node> nodeHashMap = new HashMap<>();
+        //todo going to be difficult to iterate through this with just a nodeHashMap
         //wait can just use .values
 
         HashMap<Integer, LinkPair> linkPairHashtable = new HashMap<>();
@@ -20,7 +20,7 @@ public class DataImporter {
                 int x = inStream.readInt();
                 int y = inStream.readInt();
 
-                hashtable.put(nodeID, new Node(nodeID, x, y));
+                nodeHashMap.put(nodeID, new Node(nodeID, x, y));
             }
             inStream.close();
         } catch (IOException e) {
@@ -42,17 +42,17 @@ public class DataImporter {
 
                 LinkPair linkPair = new LinkPair();
 
-                Link link = new Link(linkID, hashtable.get(startNodeID), hashtable.get(endNodeID), name, length);
-                (hashtable.get(startNodeID)).awayLinkList.add(link);
-                hashtable.get(endNodeID).towardsLinkList.add(link);
+                Link link = new Link(linkID, nodeHashMap.get(startNodeID), nodeHashMap.get(endNodeID), name, length);
+                (nodeHashMap.get(startNodeID)).awayLinkList.add(link);
+                nodeHashMap.get(endNodeID).towardsLinkList.add(link);
                 linkPair.link1 = link;
                 linkPair.linkID = linkID;
                 //todo figure out reversing links
                 //maybe do it after I add the waypoint stream
                 if (oneway != 1) {
-                    Link reverseLink = new Link(linkID, hashtable.get(endNodeID), hashtable.get(startNodeID), name, length);
-                    ((hashtable.get(endNodeID)).awayLinkList).add(reverseLink);
-                    hashtable.get(startNodeID).towardsLinkList.add(reverseLink);
+                    Link reverseLink = new Link(linkID, nodeHashMap.get(endNodeID), nodeHashMap.get(startNodeID), name, length);
+                    ((nodeHashMap.get(endNodeID)).awayLinkList).add(reverseLink);
+                    nodeHashMap.get(startNodeID).towardsLinkList.add(reverseLink);
                     linkPair.link2 = reverseLink;
                 }
             }
@@ -85,6 +85,6 @@ public class DataImporter {
         }
 
 
-        return hashtable;
+        return nodeHashMap;
     }
 }

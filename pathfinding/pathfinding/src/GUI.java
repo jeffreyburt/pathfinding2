@@ -27,9 +27,11 @@ public class GUI {
             super.paintComponent(g);
             drawNodes(g);
         }
-        public void drawNodes(Graphics g, Node node){
+        public void drawNodes(Graphics g){
             Graphics2D g2d = (Graphics2D) g;
-            g2d.drawOval(node.x_cord, node.y_cord, 5,5);
+            for (Node node: controller.nodes.values()) {
+                g2d.fillOval( node.x_cord, node.y_cord, 3, 3);
+            }
         }
 
     }
