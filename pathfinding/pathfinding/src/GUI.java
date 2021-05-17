@@ -11,8 +11,9 @@ public class GUI {
         JPanel mainPanel = new JPanel(new BorderLayout());
         MapPanel mapPanel = new MapPanel();
         mapPanel.setPreferredSize(new Dimension(1920, 1080));
-        mainPanel.add(mapPanel);
         myJFrame.add(mainPanel);
+        mainPanel.add(mapPanel);
+
 
 
         myJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -20,10 +21,15 @@ public class GUI {
         myJFrame.setLocationRelativeTo(null);
         myJFrame.setVisible(true);
     }
-    private class MapPanel extends JPanel{
-
+     public class MapPanel extends JPanel{
+        @Override
         public void paintComponent(Graphics g){
             super.paintComponent(g);
+            drawNodes(g);
+        }
+        public void drawNodes(Graphics g){
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.drawLine(50,50,1900,1070);
         }
 
     }
