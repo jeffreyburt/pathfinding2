@@ -3,6 +3,7 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class DataImporter {
     public HashMap<Integer, Node> dataImporter(String dataFolder) {
@@ -10,7 +11,7 @@ public class DataImporter {
         //todo going to be difficult to iterate through this with just a nodeHashMap
         //wait can just use .values
 
-        HashMap<Integer, LinkPair> linkPairHashtable = new HashMap<>();
+        HashMap<Integer, LinkPair> linkPairHashMap = new HashMap<>();
         //nodes (intersections)
         try {
             DataInputStream inStream = new DataInputStream(new BufferedInputStream(new FileInputStream(dataFolder + "/nodes.bin")));
@@ -41,10 +42,12 @@ public class DataImporter {
                 boolean onewayBool = oneway == 1;
 
                 LinkPair linkPair = new LinkPair();
+                linkPairHashMap.put(linkID, linkPair);
 
                 Link link = new Link(linkID, nodeHashMap.get(startNodeID), nodeHashMap.get(endNodeID), name, length);
                 (nodeHashMap.get(startNodeID)).awayLinkList.add(link);
                 nodeHashMap.get(endNodeID).towardsLinkList.add(link);
+                //todo should I only do this if I need to??^^
                 linkPair.link1 = link;
                 linkPair.linkID = linkID;
                 //todo figure out reversing links
@@ -70,12 +73,17 @@ public class DataImporter {
             int numLinks = waypointsStream.readInt();
             for (int i = 0; i < numLinks; i++) {
                 int linkID = waypointsStream.readInt();
+                LinkPair pair = linkPairHashMap.get(linkID);
+                LinkedList<LinkPair.Coordinate> coordinateLinkedList = new LinkedList<>();
+                //note should start with end node
                 int numWaypoints = waypointsStream.readInt();
                 for (int p = 0; p < numWaypoints; p++) {
                     int x2 = waypointsStream.readInt();
                     int y2 = waypointsStream.readInt();
-                    // make a waypoint, add it to a data structure
+                    coordinateLinkedList.addFirst(pair.new Coordinate(x2,y2));
+
                 }
+                pair.assignWaypoints(coordinateLinkedList);
             }
             waypointsStream.close();
 
