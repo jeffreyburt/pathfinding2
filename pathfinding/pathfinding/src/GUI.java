@@ -27,9 +27,9 @@ public class GUI {
             super.paintComponent(g);
             drawNodes(g);
         }
-        public void drawNodes(Graphics g){
+        public void drawNodes(Graphics g, Node node){
             Graphics2D g2d = (Graphics2D) g;
-            g2d.drawLine(50,50,1900,1070);
+            g2d.drawOval(node.x_cord, node.y_cord, 5,5);
         }
 
     }
