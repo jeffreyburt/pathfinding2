@@ -10,6 +10,7 @@ public class DataImporter {
         HashMap<Integer, Node> nodeHashMap = new HashMap<>();
         //todo going to be difficult to iterate through this with just a nodeHashMap
         //wait can just use .values
+        //test
 
         HashMap<Integer, LinkPair> linkPairHashMap = new HashMap<>();
         //nodes (intersections)
