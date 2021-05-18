@@ -80,7 +80,7 @@ public class Pathfinder {
     }
 
 
-    class PathfinderNode{
+    class PathfinderNode implements Comparable{
         public Node node;
         public PathfinderNode pointerNode;
         //^^ points towards start
@@ -96,6 +96,19 @@ public class Pathfinder {
             this.pointerNode = pointerNode;
             this.pathToStart = pathToStart;
             this.linkToStart = linkToStart;
+        }
+
+        @Override
+        //todo double check this
+        public int compareTo(PathfinderNode obj) {
+            if((obj.pathToStart + obj.guessDistance) == (pathToStart + guessDistance)){
+                return 0;
+            }else if ((obj.pathToStart + obj.guessDistance) < (pathToStart + guessDistance)){
+                return 1;
+                //todo check this^^
+            }else {
+                return -1;
+            }
         }
 
         //todo need to add a compare to function for sorting in heap tree

@@ -63,10 +63,6 @@ public class DataImporter {
         } catch (IOException e) {
             System.err.println("error on links: " + e.getMessage());
         }
-        //todo figure out front end drawing/routing later
-        //so I'll draw the links first, then use two one way links.
-        //I'll use the one way links to draw the path/directions
-        //waypoints
         try {
             DataInputStream waypointsStream = new DataInputStream(new BufferedInputStream(new FileInputStream(dataFolder + "/links-waypoints.bin")));
 
