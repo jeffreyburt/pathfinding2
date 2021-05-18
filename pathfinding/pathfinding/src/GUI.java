@@ -10,16 +10,18 @@ public class GUI {
         JFrame myJFrame = new JFrame("Pathfinder");           // makes a new framed window with the given title
         JPanel mainPanel = new JPanel(new BorderLayout());
         MapPanel mapPanel = new MapPanel();
-        mapPanel.setPreferredSize(new Dimension(1920, 1080));
+        mapPanel.setPreferredSize(new Dimension(1000, 700));
         myJFrame.add(mainPanel);
         mainPanel.add(mapPanel);
-
-
-
         myJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         myJFrame.pack();
         myJFrame.setLocationRelativeTo(null);
         myJFrame.setVisible(true);
+        ////////////////////////////////////////////////////////////////////
+        //do click detection here
+
+
+
     }
      public class MapPanel extends JPanel{
         @Override
@@ -33,13 +35,10 @@ public class GUI {
                 g2d.fillOval( node.x_cord, node.y_cord, 3, 3);
             }
             for (LinkPair linkPair: controller.linkHashMap.values()) {
-                LinkPair.Coordinate prevCord = null;
+                LinkPair.Coordinate prevCord = linkPair.coordinateLinkedList.get(0);
                 for(LinkPair.Coordinate coordinate:
-                        //todo do you need a for each loop to iterate efficiently?^^
                     linkPair.coordinateLinkedList) {
-                    if(prevCord != null){
-                        g2d.drawLine(prevCord.xCord,prevCord.yCord,coordinate.xCord,coordinate.yCord);                        prevCord = coordinate;
-                    }
+                    g2d.drawLine(prevCord.xCord,prevCord.yCord,coordinate.xCord,coordinate.yCord);
                     prevCord = coordinate;
                 }
 
@@ -47,5 +46,4 @@ public class GUI {
         }
 
     }
-//test
 }

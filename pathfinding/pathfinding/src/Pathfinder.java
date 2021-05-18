@@ -1,27 +1,24 @@
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.LinkedList;
-import java.util.Stack;
+import java.util.*;
 
 public class Pathfinder {
     private HashMap<Node, PathfinderNode> pathfinderNodeHashtable = new HashMap<>();
-    private LinkedList<PathfinderNode> edgeNodes = new LinkedList<>();
-    //todo change to binary search tree???
-//    wait or maybe change it to a priority queue
-//    Changing this is going to involve changing how I shortest possible paths
-    private Stack<Link> pathStack= new Stack<>();
+    private PriorityQueue<PathfinderNode> edgeNodes = new PriorityQueue<>();
+    private Stack<Link> pathStack = new Stack<>();
     private Node endNode;
     private PathfinderNode endPathfinderNode;
     private boolean isEndNodeFound = false;
 
-    public Stack<Link> pathfinder(Node startNode, Node endNode){
-        PathfinderNode homePathfinderNode = new PathfinderNode(startNode, null, 0, null);
+    public Stack<Link> pathfinder(Node startNode, Node endNode) {
+        PathfinderNode homePathfinderNode = new PathfinderNode(startNode, null, 0, null, null);
+        double xDistance = (homePathfinderNode.node.x_cord - endNode.x_cord) ^ 2;
+        double yDistance = (homePathfinderNode.node.y_cord - endNode.y_cord) ^ 2;
+        homePathfinderNode.guessDistance = (Math.sqrt(xDistance + yDistance));
+        pathfinderNodeHashtable.put(startNode, homePathfinderNode);
         edgeNodes.add(homePathfinderNode);
         this.endNode = endNode;
-        while (!isEndNodeFound){
+        while (!isEndNodeFound) {
             extendGraph();
         }
-        //todo where to send final path/how to store it
         PathfinderNode workingNode = endPathfinderNode;
         while (workingNode.pointerNode != null) {
             pathStack.add(workingNode.linkToStart);
@@ -31,47 +28,32 @@ public class Pathfinder {
     }
 
     //done
-    private void expandNode( PathfinderNode pathfinderNode){
-        for (Link link: pathfinderNode.node.awayLinkList) {
+    private void expandNode(PathfinderNode pathfinderNode) {
+        for (Link link : pathfinderNode.node.awayLinkList) {
             //^^ is the link pointing towards a node that we haven't accessed yet
             Node edgeNode = link.endNode;
-            if(pathfinderNodeHashtable.get(edgeNode) == null){
-                //todo do I really need this^^
-                if (edgeNode == endNode){
+            if (pathfinderNodeHashtable.get(edgeNode) == null) {
+                //checking to see if node had already been accessed
+                if (edgeNode == endNode) {
                     endPathfinderNode = new PathfinderNode(edgeNode, pathfinderNode,
-                            pathfinderNode.pathToStart + link.length, link);
+                            pathfinderNode.pathToStart + link.length, link, pathfinderNode.pathToStart + link.length);
                     isEndNodeFound = true;
                     return;
                 }
+
                 PathfinderNode newNode = new PathfinderNode(edgeNode, pathfinderNode,
-                        pathfinderNode.pathToStart + link.length, link);
+                        pathfinderNode.pathToStart + link.length, link, null);
                 pathfinderNodeHashtable.put(edgeNode, newNode);
                 edgeNodes.add(newNode);
-
-                    double xDistance = (newNode.node.x_cord - endNode.x_cord) ^ 2;
-                    double yDistance = (newNode.node.y_cord - endNode.y_cord) ^ 2;
-                    //todo can this be negative?
-                    newNode.guessDistance = (Math.sqrt(xDistance + yDistance)) + newNode.pathToStart;
+                double xDistance = (newNode.node.x_cord - endNode.x_cord) ^ 2;
+                double yDistance = (newNode.node.y_cord - endNode.y_cord) ^ 2;
+                newNode.guessDistance = (Math.sqrt(xDistance + yDistance));
             }
         }
-        edgeNodes.remove(pathfinderNode);
     }
 
-    private void extendGraph(){
-        PathfinderNode smallestNode = null;
-        double minDistance = Double.MAX_VALUE;
-        for (PathfinderNode nodee: edgeNodes) {
-            if (nodee.guessDistance == null){
-                double xDistance = Math.pow(nodee.node.x_cord - endNode.x_cord, 2);
-                double yDistance = Math.pow(nodee.node.y_cord - endNode.y_cord, 2);
-                nodee.guessDistance = Math.sqrt(xDistance + yDistance);
-            }
-
-            if(nodee.guessDistance <= minDistance){
-                minDistance = nodee.guessDistance;
-                smallestNode = nodee;
-            }
-        }
+    private void extendGraph() {
+        PathfinderNode smallestNode = edgeNodes.poll();
         if (smallestNode != null) {
             expandNode(smallestNode);
         } else {
@@ -80,7 +62,7 @@ public class Pathfinder {
     }
 
 
-    class PathfinderNode implements Comparable{
+    class PathfinderNode implements Comparable<PathfinderNode> {
         public Node node;
         public PathfinderNode pointerNode;
         //^^ points towards start
@@ -90,27 +72,20 @@ public class Pathfinder {
         //NOTE: this link is a reverse link towards home, its start node points towards home
 
 
-
-        public PathfinderNode(Node node, PathfinderNode pointerNode, double pathToStart, Link linkToStart){
+        public PathfinderNode(Node node, PathfinderNode pointerNode, double pathToStart, Link linkToStart, Double guessDistance) {
             this.node = node;
             this.pointerNode = pointerNode;
             this.pathToStart = pathToStart;
             this.linkToStart = linkToStart;
+            this.guessDistance = guessDistance;
+            //^should not include path distance
         }
 
         @Override
-        //todo double check this
         public int compareTo(PathfinderNode obj) {
-            if((obj.pathToStart + obj.guessDistance) == (pathToStart + guessDistance)){
-                return 0;
-            }else if ((obj.pathToStart + obj.guessDistance) < (pathToStart + guessDistance)){
-                return 1;
-                //todo check this^^
-            }else {
-                return -1;
-            }
+            return Double.compare(pathToStart + guessDistance, obj.pathToStart + obj.guessDistance);
         }
 
-        //todo need to add a compare to function for sorting in heap tree
+
     }
 }

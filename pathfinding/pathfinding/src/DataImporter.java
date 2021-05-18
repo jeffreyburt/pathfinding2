@@ -8,9 +8,6 @@ import java.util.LinkedList;
 public class DataImporter {
     public void dataImporter(String dataFolder) {
         HashMap<Integer, Node> nodeHashMap = new HashMap<>();
-        //todo going to be difficult to iterate through this with just a nodeHashMap
-        //wait can just use .values
-        //test
 
         HashMap<Integer, LinkPair> linkPairHashMap = new HashMap<>();
         //nodes (intersections)
@@ -48,11 +45,8 @@ public class DataImporter {
                 Link link = new Link(linkID, nodeHashMap.get(startNodeID), nodeHashMap.get(endNodeID), name, length);
                 (nodeHashMap.get(startNodeID)).awayLinkList.add(link);
                 nodeHashMap.get(endNodeID).towardsLinkList.add(link);
-                //todo should I only do this if I need to??^^
                 linkPair.link1 = link;
                 linkPair.linkID = linkID;
-                //todo figure out reversing links
-                //maybe do it after I add the waypoint stream
                 if (oneway != 1) {
                     Link reverseLink = new Link(linkID, nodeHashMap.get(endNodeID), nodeHashMap.get(startNodeID), name, length);
                     ((nodeHashMap.get(endNodeID)).awayLinkList).add(reverseLink);

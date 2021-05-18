@@ -9,7 +9,7 @@ public class controller {
     public static void main(String[] args) {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //parameters//
-        String dataFolder = null;
+        String dataFolder = "C:\\Users\\Jeffrey Burt\\Desktop\\Catlin2-allroads-2020\\Catlin2-allroads-2020";
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         try {
@@ -22,7 +22,7 @@ public class controller {
 
 
         DataImporter dataImporter = new DataImporter();
-        dataImporter.dataImporter("C:\\Users\\Jeffrey\\Downloads\\Catlin2-allroads-2020\\Catlin2-allroads-2020");
+        dataImporter.dataImporter(dataFolder);
         GUI gui = new GUI();
     }
 
