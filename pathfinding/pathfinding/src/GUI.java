@@ -32,6 +32,18 @@ public class GUI {
             for (Node node: controller.nodes.values()) {
                 g2d.fillOval( node.x_cord, node.y_cord, 3, 3);
             }
+            for (LinkPair linkPair: controller.linkHashMap.values()) {
+                LinkPair.Coordinate prevCord = null;
+                for(LinkPair.Coordinate coordinate:
+                        //todo do you need a for each loop to iterate efficiently?^^
+                    linkPair.coordinateLinkedList) {
+                    if(prevCord != null){
+                        g2d.drawLine(prevCord.xCord,prevCord.yCord,coordinate.xCord,coordinate.yCord);                        prevCord = coordinate;
+                    }
+                    prevCord = coordinate;
+                }
+
+            }
         }
 
     }

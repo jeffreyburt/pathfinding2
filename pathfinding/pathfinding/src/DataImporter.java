@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 public class DataImporter {
-    public HashMap<Integer, Node> dataImporter(String dataFolder) {
+    public void dataImporter(String dataFolder) {
         HashMap<Integer, Node> nodeHashMap = new HashMap<>();
         //todo going to be difficult to iterate through this with just a nodeHashMap
         //wait can just use .values
@@ -92,7 +92,7 @@ public class DataImporter {
             System.err.println("error on waypoints: " + e.getMessage());
         }
 
-
-        return nodeHashMap;
+        controller.nodes = nodeHashMap;
+        controller.linkHashMap = linkPairHashMap;
     }
 }

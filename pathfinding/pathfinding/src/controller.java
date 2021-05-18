@@ -1,8 +1,10 @@
 import javax.swing.*;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class controller {
     public static HashMap<Integer, Node> nodes = new HashMap<>();
+    public static  HashMap<Integer, LinkPair> linkHashMap = new HashMap<>();
 
     public static void main(String[] args) {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -20,8 +22,7 @@ public class controller {
 
 
         DataImporter dataImporter = new DataImporter();
-
-        nodes = dataImporter.dataImporter("C:\\Users\\Jeffrey\\Downloads\\Catlin2-allroads-2020\\Catlin2-allroads-2020");
+        dataImporter.dataImporter("C:\\Users\\Jeffrey\\Downloads\\Catlin2-allroads-2020\\Catlin2-allroads-2020");
         GUI gui = new GUI();
     }
 

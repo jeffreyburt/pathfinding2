@@ -9,9 +9,10 @@ public class LinkPair {
     //note should start with end node
 
     public void assignWaypoints(LinkedList<LinkPair.Coordinate> linkedList){
-        linkedList.addLast(new Coordinate(link1.startNode.x_cord,link1.startNode.y_cord));
-        linkedList.addFirst(new Coordinate(link1.endNode.x_cord, link1.endNode.y_cord));
         coordinateLinkedList = linkedList;
+        coordinateLinkedList.addLast(new Coordinate(link1.startNode.x_cord,link1.startNode.y_cord));
+        coordinateLinkedList.addFirst(new Coordinate(link1.endNode.x_cord, link1.endNode.y_cord));
+
 
     }
     class Coordinate{
