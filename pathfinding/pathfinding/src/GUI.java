@@ -2,10 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 
-public class GUI {
+public class GUI  {
     GUI() {
         JFrame myJFrame = new JFrame("Pathfinder");           // makes a new framed window with the given title
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -19,11 +21,17 @@ public class GUI {
         myJFrame.setVisible(true);
         ////////////////////////////////////////////////////////////////////
         //do click detection here
+        //todo add click detection here
+
 
 
 
     }
-     public class MapPanel extends JPanel{
+     public class MapPanel extends JPanel implements MouseListener {
+        private Node click1Node;
+
+
+
         @Override
         public void paintComponent(Graphics g){
             super.paintComponent(g);
@@ -45,5 +53,39 @@ public class GUI {
             }
         }
 
-    }
+         private Node getNodeFromClick(int clickX, int clickY){
+            int closestX;
+
+             for (Node node: controller.nodes.values()) {
+                 if(node.x_cord == cl)
+             }
+         }
+
+         @Override
+         public void mouseClicked(MouseEvent e) {
+            if(click1Node == null){
+
+            }
+         }
+
+         @Override
+         public void mousePressed(MouseEvent e) {
+
+         }
+
+         @Override
+         public void mouseReleased(MouseEvent e) {
+
+         }
+
+         @Override
+         public void mouseEntered(MouseEvent e) {
+
+         }
+
+         @Override
+         public void mouseExited(MouseEvent e) {
+
+         }
+     }
 }
