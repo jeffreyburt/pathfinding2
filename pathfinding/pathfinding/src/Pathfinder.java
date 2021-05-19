@@ -8,6 +8,7 @@ public class Pathfinder {
     private PathfinderNode endPathfinderNode;
     private boolean isEndNodeFound = false;
     private boolean noPath = false;
+    private int nodesExplored = 1;
 
     public Stack<Link> pathfinder(Node startNode, Node endNode) {
         long startTime = System.currentTimeMillis();
@@ -35,7 +36,7 @@ public class Pathfinder {
             pathStack.add(workingNode.linkToStart);
             workingNode = workingNode.pointerNode;
         }
-        System.out.println("Path found in: " + (System.currentTimeMillis() - startTime) + " milliseconds");
+        System.out.println("Explored "+ nodesExplored + " nodes to find path in: " + (System.currentTimeMillis() - startTime) + " milliseconds");
         System.out.println("Path distance of: " + endPathfinderNode.pathToStart + " miles");
         return pathStack;
     }
@@ -50,7 +51,7 @@ public class Pathfinder {
             Node edgeNode = link.endNode;
             //checking to see if node had already been accessed
             if (pathfinderNodeHashtable.get(edgeNode) == null) {
-
+                nodesExplored ++;
                 //checking to see if we found the end node
                 if (edgeNode == endNode) {
                     endPathfinderNode = new PathfinderNode(edgeNode, pathfinderNode,
@@ -105,6 +106,7 @@ public class Pathfinder {
         @Override
         public int compareTo(PathfinderNode obj) {
             return Double.compare(pathToStart + guessDistance, obj.pathToStart + obj.guessDistance);
+            //return Double.compare(pathToStart, obj.pathToStart);
         }
 
 

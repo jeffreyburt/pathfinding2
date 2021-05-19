@@ -14,6 +14,7 @@ public class DataImporter {
         try {
             DataInputStream inStream = new DataInputStream(new BufferedInputStream(new FileInputStream(dataFolder + "/nodes.bin")));
             int numNodes = inStream.readInt();
+            System.out.println("Processed " + numNodes + " nodes");
             for (int i = 0; i < numNodes; i++) {
                 int nodeID = inStream.readInt();
                 int x = inStream.readInt();

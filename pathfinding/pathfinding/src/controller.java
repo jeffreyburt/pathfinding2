@@ -12,7 +12,7 @@ public class controller {
     public static void main(String[] args) {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //parameters//
-        String dataFolder = "C:\\Users\\Jeffrey\\Downloads\\Catlin2-allroads-2020\\Catlin2-allroads-2020";
+        String dataFolder = "C:\\Users\\Jeffrey\\Downloads\\US-primary-2020\\US-primary-2020";
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         try {
