@@ -22,6 +22,8 @@ public class GUI  {
         ////////////////////////////////////////////////////////////////////
         //do click detection here
         //todo add click detection here
+        myJFrame.addMouseListener(mapPanel);
+
 
 
 
@@ -36,8 +38,26 @@ public class GUI  {
         public void paintComponent(Graphics g){
             super.paintComponent(g);
             drawNodes(g);
+            drawPath(g);
         }
-        public void drawNodes(Graphics g){
+
+         private void drawPath(Graphics g) {
+            Graphics2D graphics2D = (Graphics2D) g;
+            graphics2D.setColor(Color.RED);
+            if(controller.pathLinkStack != null){
+                for (Link link: controller.pathLinkStack) {
+                    LinkPair linkPair = controller.linkHashMap.get(link.linkID);
+                    LinkPair.Coordinate prevCord = linkPair.coordinateLinkedList.get(0);
+                    for(LinkPair.Coordinate coordinate:
+                            linkPair.coordinateLinkedList) {
+                        graphics2D.drawLine(prevCord.xCord,prevCord.yCord,coordinate.xCord,coordinate.yCord);
+                        prevCord = coordinate;
+                    }
+                }
+            }
+         }
+
+         public void drawNodes(Graphics g){
             Graphics2D g2d = (Graphics2D) g;
             for (Node node: controller.nodes.values()) {
                 g2d.fillOval( node.x_cord, node.y_cord, 3, 3);
@@ -54,17 +74,29 @@ public class GUI  {
         }
 
          private Node getNodeFromClick(int clickX, int clickY){
-            int closestX;
-
+            int smallestDistance = Integer.MAX_VALUE;
+            Node closestNode = null;
              for (Node node: controller.nodes.values()) {
-                 if(node.x_cord == cl)
+                 int distance = (int) Math.sqrt(Math.pow(node.x_cord - clickX, 2) + Math.pow(node.y_cord - clickY, 2));
+                 if(distance <= smallestDistance){
+                     smallestDistance = distance;
+                     closestNode = node;
+                 }
              }
+             return closestNode;
          }
 
          @Override
+         //todo this doesnt work
          public void mouseClicked(MouseEvent e) {
+            System.out.println("yay this worked");
             if(click1Node == null){
-
+                click1Node = getNodeFromClick(e.getX(), e.getY());
+            }else {
+                controller.pathFind(click1Node, getNodeFromClick(e.getX(), e.getY()));
+                click1Node = null;
+                System.out.println("repaint");
+                this.repaint();
             }
          }
 

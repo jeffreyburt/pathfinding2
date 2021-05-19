@@ -13,6 +13,7 @@ public class Pathfinder {
         double xDistance = (homePathfinderNode.node.x_cord - endNode.x_cord) ^ 2;
         double yDistance = (homePathfinderNode.node.y_cord - endNode.y_cord) ^ 2;
         homePathfinderNode.guessDistance = (Math.sqrt(xDistance + yDistance));
+        System.out.println(homePathfinderNode.guessDistance);
         pathfinderNodeHashtable.put(startNode, homePathfinderNode);
         edgeNodes.add(homePathfinderNode);
         this.endNode = endNode;
@@ -43,11 +44,12 @@ public class Pathfinder {
 
                 PathfinderNode newNode = new PathfinderNode(edgeNode, pathfinderNode,
                         pathfinderNode.pathToStart + link.length, link, null);
-                pathfinderNodeHashtable.put(edgeNode, newNode);
-                edgeNodes.add(newNode);
+
                 double xDistance = (newNode.node.x_cord - endNode.x_cord) ^ 2;
                 double yDistance = (newNode.node.y_cord - endNode.y_cord) ^ 2;
                 newNode.guessDistance = (Math.sqrt(xDistance + yDistance));
+                pathfinderNodeHashtable.put(edgeNode, newNode);
+                edgeNodes.add(newNode);
             }
         }
     }
@@ -83,6 +85,7 @@ public class Pathfinder {
 
         @Override
         public int compareTo(PathfinderNode obj) {
+            System.out.println("homepath to start;" + pathToStart +"   " + guessDistance);
             return Double.compare(pathToStart + guessDistance, obj.pathToStart + obj.guessDistance);
         }
 
