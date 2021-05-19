@@ -7,6 +7,7 @@ public class controller {
     public static HashMap<Integer, Node> nodes = new HashMap<>();
     public static  HashMap<Integer, LinkPair> linkHashMap = new HashMap<>();
     public static Stack<Link> pathLinkStack = null;
+    public static boolean drawNodes = false;
 
     public static void main(String[] args) {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -59,8 +59,10 @@ public class GUI  {
 
          public void drawNodes(Graphics g){
             Graphics2D g2d = (Graphics2D) g;
-            for (Node node: controller.nodes.values()) {
-                g2d.fillOval( node.x_cord, node.y_cord, 3, 3);
+            if(controller.drawNodes) {
+                for (Node node : controller.nodes.values()) {
+                    g2d.fillOval(node.x_cord, node.y_cord, 3, 3);
+                }
             }
             for (LinkPair linkPair: controller.linkHashMap.values()) {
                 LinkPair.Coordinate prevCord = linkPair.coordinateLinkedList.get(0);
@@ -83,26 +85,27 @@ public class GUI  {
                      closestNode = node;
                  }
              }
+             System.out.println(closestNode);
              return closestNode;
          }
 
          @Override
          //todo this doesnt work
          public void mouseClicked(MouseEvent e) {
-            System.out.println("yay this worked");
-            if(click1Node == null){
-                click1Node = getNodeFromClick(e.getX(), e.getY());
-            }else {
-                controller.pathFind(click1Node, getNodeFromClick(e.getX(), e.getY()));
-                click1Node = null;
-                System.out.println("repaint");
-                this.repaint();
-            }
+
          }
 
          @Override
          public void mousePressed(MouseEvent e) {
-
+             System.out.println("yay this worked");
+             if(click1Node == null){
+                 click1Node = getNodeFromClick(e.getX(), e.getY());
+             }else {
+                 controller.pathFind(click1Node, getNodeFromClick(e.getX(), e.getY()));
+                 click1Node = null;
+                 System.out.println("repaint");
+                 this.repaint();
+             }
          }
 
          @Override
