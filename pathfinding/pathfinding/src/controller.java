@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Stack;
 
 public class controller {
@@ -13,7 +12,7 @@ public class controller {
     public static void main(String[] args) {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //parameters//
-        String dataFolder = "C:\\Users\\Jeffrey Burt\\Desktop\\US-primary-2020\\US-primary-2020";
+        String dataFolder = "C:\\Users\\Jeffrey\\Downloads\\US-primary-2020\\US-primary-2020";
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         try {
