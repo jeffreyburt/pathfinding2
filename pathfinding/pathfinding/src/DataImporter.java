@@ -17,8 +17,8 @@ public class DataImporter {
             System.out.println("Processed " + numNodes + " nodes");
             for (int i = 0; i < numNodes; i++) {
                 int nodeID = inStream.readInt();
-                int x = inStream.readInt();
-                int y = inStream.readInt();
+                int x = inStream.readInt() + controller.graphicsBorder;
+                int y = inStream.readInt() + controller.graphicsBorder;
 
                 nodeHashMap.put(nodeID, new Node(nodeID, x, y));
             }
@@ -70,8 +70,8 @@ public class DataImporter {
                 //note should start with end node
                 int numWaypoints = waypointsStream.readInt();
                 for (int p = 0; p < numWaypoints; p++) {
-                    int x2 = waypointsStream.readInt();
-                    int y2 = waypointsStream.readInt();
+                    int x2 = waypointsStream.readInt() + controller.graphicsBorder;
+                    int y2 = waypointsStream.readInt() + controller.graphicsBorder;
                     coordinateLinkedList.addFirst(pair.new Coordinate(x2,y2));
 
                 }

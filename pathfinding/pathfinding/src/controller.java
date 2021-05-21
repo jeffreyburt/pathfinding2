@@ -8,11 +8,12 @@ public class controller {
     public static  HashMap<Integer, LinkPair> linkHashMap = new HashMap<>();
     public static Stack<Link> pathLinkStack = null;
     public static boolean drawNodes = false;
+    public static int graphicsBorder = 5;
 
     public static void main(String[] args) {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //parameters//
-        String dataFolder = "C:\\Users\\Jeffrey\\Downloads\\US-primary-2020\\US-primary-2020";
+        String dataFolder = "C:\\Users\\Jeffrey Burt\\Desktop\\US-primary-2020\\US-primary-2020";
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         try {
@@ -30,7 +31,9 @@ public class controller {
     }
     public static void pathFind(Node startNode, Node endNode){
         Pathfinder pathfinderObject = new Pathfinder();
-        pathLinkStack = pathfinderObject.pathfinder(startNode, endNode);
+        Pathfinder pathfinderObject2 = new Pathfinder();
+        pathLinkStack = pathfinderObject.pathfinder(startNode, endNode, true);
+        pathfinderObject2.pathfinder(startNode, endNode, false);
     }
 
 }

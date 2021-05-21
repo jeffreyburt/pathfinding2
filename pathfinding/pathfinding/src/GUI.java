@@ -12,7 +12,7 @@ public class GUI  {
         JFrame myJFrame = new JFrame("Pathfinder");           // makes a new framed window with the given title
         JPanel mainPanel = new JPanel(new BorderLayout());
         MapPanel mapPanel = new MapPanel();
-        mapPanel.setPreferredSize(new Dimension(1000, 700));
+        mapPanel.setPreferredSize(new Dimension(1000 + (controller.graphicsBorder*2), 700 + (controller.graphicsBorder * 2)));
         myJFrame.add(mainPanel);
         mainPanel.add(mapPanel);
         myJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,7 +85,7 @@ public class GUI  {
                      closestNode = node;
                  }
              }
-             System.out.println(closestNode);
+             System.out.println("Successfully found Node: " + closestNode);
              return closestNode;
          }
 
@@ -97,13 +97,12 @@ public class GUI  {
 
          @Override
          public void mousePressed(MouseEvent e) {
-             System.out.println("yay this worked");
              if(click1Node == null){
                  click1Node = getNodeFromClick(e.getX(), e.getY());
              }else {
                  controller.pathFind(click1Node, getNodeFromClick(e.getX(), e.getY()));
                  click1Node = null;
-                 System.out.println("repaint");
+                 System.out.println("Drawing path...");
                  this.repaint();
              }
          }

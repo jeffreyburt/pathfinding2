@@ -9,19 +9,24 @@ public class Pathfinder {
     private boolean isEndNodeFound = false;
     private boolean noPath = false;
     private int nodesExplored = 1;
+    private boolean isAStar;
 
-    public Stack<Link> pathfinder(Node startNode, Node endNode) {
+    //todo questions for Andrew
+    //A* and normal search algorithm explore the same amount of nodes
+    //lots of no path founds
+    //just seems a bit inefficient
+
+    public Stack<Link> pathfinder(Node startNode, Node endNode, Boolean isAstar) {
+        this.isAStar = isAstar;
         long startTime = System.currentTimeMillis();
+        //setting end node
+        this.endNode = endNode;
         //creating and setting guess distance for home node
-        PathfinderNode homePathfinderNode = new PathfinderNode(startNode, null, 0, null, null);
-        double xDistance = Math.pow(homePathfinderNode.node.x_cord - endNode.x_cord, 2);
-        double yDistance = Math.pow(homePathfinderNode.node.y_cord - endNode.y_cord, 2);
-        homePathfinderNode.guessDistance = (Math.sqrt(xDistance + yDistance));
+        PathfinderNode homePathfinderNode = new PathfinderNode(startNode, null, 0, null, endNode);
         //adding it to data types
         pathfinderNodeHashtable.put(startNode, homePathfinderNode);
         edgeNodes.add(homePathfinderNode);
-        //setting end node
-        this.endNode = endNode;
+
         //search loop, if the end hasn't been found are there is still a possible path
         while (!isEndNodeFound && !noPath) {
             extendGraph();
@@ -36,8 +41,14 @@ public class Pathfinder {
             pathStack.add(workingNode.linkToStart);
             workingNode = workingNode.pointerNode;
         }
-        System.out.println("Explored "+ nodesExplored + " nodes to find path in: " + (System.currentTimeMillis() - startTime) + " milliseconds");
+        if(isAStar){
+            System.out.print("Used A* to explore ");
+        }else {
+            System.out.print("Used Dijkstra's Algorithm to explore ");
+        }
+        System.out.println( nodesExplored + " nodes to find a path in: " + (System.currentTimeMillis() - startTime) + " milliseconds");
         System.out.println("Path distance of: " + endPathfinderNode.pathToStart + " miles");
+        System.out.println();
         return pathStack;
     }
 
@@ -55,17 +66,13 @@ public class Pathfinder {
                 //checking to see if we found the end node
                 if (edgeNode == endNode) {
                     endPathfinderNode = new PathfinderNode(edgeNode, pathfinderNode,
-                            pathfinderNode.pathToStart + link.length, link, (double) 0);
+                            pathfinderNode.pathToStart + link.length, link, endNode);
                     isEndNodeFound = true;
                     return;
                 }
                 //creating a new node for each possible path
                 PathfinderNode newNode = new PathfinderNode(edgeNode, pathfinderNode,
-                        pathfinderNode.pathToStart + link.length, link, null);
-                //guessing distance for that node
-                double xDistance = Math.pow(edgeNode.x_cord - endNode.x_cord, 2);
-                double yDistance = Math.pow(edgeNode.y_cord - endNode.y_cord, 2);
-                newNode.guessDistance = (Math.sqrt(xDistance + yDistance));
+                        pathfinderNode.pathToStart + link.length, link, endNode);
                 pathfinderNodeHashtable.put(edgeNode, newNode);
                 edgeNodes.add(newNode);
             }
@@ -94,19 +101,25 @@ public class Pathfinder {
         //NOTE: this link is a reverse link towards home, its start node points towards home
 
 
-        public PathfinderNode(Node node, PathfinderNode pointerNode, double pathToStart, Link linkToStart, Double guessDistance) {
+        public PathfinderNode(Node node, PathfinderNode pointerNode, double pathToStart, Link linkToStart, Node endnodde) {
             this.node = node;
             this.pointerNode = pointerNode;
             this.pathToStart = pathToStart;
             this.linkToStart = linkToStart;
-            this.guessDistance = guessDistance;
             //^should not include path distance
+            if(isAStar){
+                double xDistance = Math.pow(node.x_cord - endNode.x_cord, 2);
+                double yDistance = Math.pow(node.y_cord - endNode.y_cord, 2);
+                guessDistance = (Math.sqrt(xDistance + yDistance));
+            }
         }
 
         @Override
         public int compareTo(PathfinderNode obj) {
-            return Double.compare(pathToStart + guessDistance, obj.pathToStart + obj.guessDistance);
-            //return Double.compare(pathToStart, obj.pathToStart);
+            if(isAStar) {
+                return Double.compare(pathToStart + guessDistance, obj.pathToStart + obj.guessDistance);
+            }
+            return Double.compare(pathToStart, obj.pathToStart);
         }
 
 
