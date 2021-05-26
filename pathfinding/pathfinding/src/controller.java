@@ -8,11 +8,12 @@ public class controller {
     public static Stack<Link> pathLinkStack = null;
     public static boolean drawNodes = false;
     public static int graphicsBorder = 5;
+    public static double pixelsToMiles;
 
     public static void main(String[] args) {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //parameters//
-        String dataFolder = "C:\\Users\\Jeffrey\\Downloads\\US-primary-2020\\US-primary-2020";
+        String dataFolder = "C:\\Users\\Jeffrey\\Downloads\\Catlin2-allroads-2020\\Catlin2-allroads-2020";
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         try {
@@ -31,8 +32,19 @@ public class controller {
     public static void pathFind(Node startNode, Node endNode){
         Pathfinder pathfinderObject = new Pathfinder();
         Pathfinder pathfinderObject2 = new Pathfinder();
+        JeffreyFind jeffreyFindObject = new JeffreyFind();
         pathLinkStack = pathfinderObject.pathfinder(startNode, endNode, true);
         pathfinderObject2.pathfinder(startNode, endNode, false);
+        //jeffreyFindObject.jeffreyFind(startNode, endNode);
+
+        System.out.println(pathfinderObject.nodeArrayList.size());
+        System.out.println(pathfinderObject2.nodeArrayList.size());
+
+//        for (int i = 0; i < pathfinderObject.nodeArrayList.size() ; i++) {
+//            if(pathfinderObject.nodeArrayList.get(i) != pathfinderObject2.nodeArrayList.get(i)){
+//                System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+//            }
+//        }
     }
 
 }

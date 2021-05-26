@@ -63,22 +63,25 @@ public class DataImporter {
             DataInputStream waypointsStream = new DataInputStream(new BufferedInputStream(new FileInputStream(dataFolder + "/links-waypoints.bin")));
 
             int numLinks = waypointsStream.readInt();
+
+            LinkPair pair = null;
+
             for (int i = 0; i < numLinks; i++) {
                 int linkID = waypointsStream.readInt();
-                LinkPair pair = linkPairHashMap.get(linkID);
+                pair = linkPairHashMap.get(linkID);
                 LinkedList<LinkPair.Coordinate> coordinateLinkedList = new LinkedList<>();
                 //note should start with end node
                 int numWaypoints = waypointsStream.readInt();
                 for (int p = 0; p < numWaypoints; p++) {
                     int x2 = waypointsStream.readInt() + controller.graphicsBorder;
                     int y2 = waypointsStream.readInt() + controller.graphicsBorder;
-                    coordinateLinkedList.addFirst(pair.new Coordinate(x2,y2));
+                    coordinateLinkedList.addFirst(pair.new Coordinate(x2, y2));
 
                 }
                 pair.assignWaypoints(coordinateLinkedList);
             }
             waypointsStream.close();
-
+            controller.pixelsToMiles = pixelsToMiles(pair);
 
         } catch (IOException e) {
             System.err.println("error on waypoints: " + e.getMessage());
@@ -87,4 +90,24 @@ public class DataImporter {
         controller.nodes = nodeHashMap;
         controller.linkHashMap = linkPairHashMap;
     }
+
+    private double pixelsToMiles(LinkPair linkPair) {
+        double totalPixelDistance = 0;
+        LinkPair.Coordinate prevCord = linkPair.coordinateLinkedList.get(0);
+        for (LinkPair.Coordinate coordinate : linkPair.coordinateLinkedList) {
+            totalPixelDistance += calculateDistance(prevCord.xCord, prevCord.yCord, coordinate.xCord, coordinate.yCord);
+            prevCord = coordinate;
+        }
+        double pixelstoMiles = (linkPair.link1.length / totalPixelDistance);
+        System.out.println("p2m ratio:  " + pixelstoMiles);
+        return pixelstoMiles;
+        //return 1;
+    }
+
+    private double calculateDistance(int x1, int y1, int x2, int y2) {
+        double xDistance = Math.pow(x1 -x2, 2);
+        double yDistance = Math.pow(y1 - y2, 2);
+        return Math.sqrt(xDistance + yDistance);
+    }
+
 }
