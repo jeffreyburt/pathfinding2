@@ -98,9 +98,8 @@ public class DataImporter {
             totalPixelDistance += calculateDistance(prevCord.xCord, prevCord.yCord, coordinate.xCord, coordinate.yCord);
             prevCord = coordinate;
         }
-        double pixelstoMiles = (linkPair.link1.length / totalPixelDistance);
-        System.out.println("p2m ratio:  " + pixelstoMiles);
-        return pixelstoMiles;
+        //System.out.println("p2m ratio:  " + pixelstoMiles);
+        return (linkPair.link1.length / totalPixelDistance);
         //return 1;
     }
 

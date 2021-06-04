@@ -1,11 +1,14 @@
 import java.util.*;
 
 public class Pathfinder {
+    //stores pathfinder nodes in order to avoid overlaps
     private HashMap<Node, PathfinderNode> pathfinderNodeHashtable = new HashMap<>();
+    //stores pathfinder nodes sorted by distance
     private PriorityQueue<PathfinderNode> edgeNodes = new PriorityQueue<>();
+    //stores the path from the end node to home
     private Stack<Link> pathStack = new Stack<>();
     private Node endNode;
-    private PathfinderNode endPathfinderNode;
+    private PathfinderNode endPathfinderNode = null;
     private boolean isEndNodeFound = false;
     private boolean noPath = false;
     private int nodesExplored = 1;
@@ -20,12 +23,6 @@ public class Pathfinder {
     So depending on the distances dealt with in the map, the weight that our guess has changes
     If we're dealing with thousands of miles a few hundred pixels will have some effect
     but if we're dealing with only 10s of miles the guess distance will be incredibly over weighted :(
-
-    todo questions for Andrew
-    todo convert pixels to miles
-    todo A* and D's have very slight different lengths, indicates a bug
-
-    todo: different weighting discussed above is causing the difference between algorithms
     */
 
 
@@ -50,12 +47,15 @@ public class Pathfinder {
         }
         //loop through recording path to start
         PathfinderNode workingNode = endPathfinderNode;
+        double pathLength = 0;
         while (workingNode.pointerNode != null) {
             pathStack.add(workingNode.linkToStart);
-            //System.out.println(workingNode.node);
+            //todo below line may be useless
             nodeArrayList.add(workingNode.node);
+            pathLength += workingNode.linkToStart.length;
             workingNode = workingNode.pointerNode;
         }
+        System.out.println("true length to start; " + pathLength);
         if(isAStar){
             System.out.print("Used A* to explore ");
         }else {
@@ -79,13 +79,6 @@ public class Pathfinder {
             PathfinderNode oldNode = pathfinderNodeHashtable.get(edgeNode);
             if (oldNode == null) {
                 nodesExplored ++;
-                //checking to see if we found the end node
-                if (edgeNode == endNode) {
-                    endPathfinderNode = new PathfinderNode(edgeNode, pathfinderNode,
-                            pathfinderNode.pathToStart + link.length, link);
-                    isEndNodeFound = true;
-                    return;
-                }
                 //creating a new node for each possible path
                 PathfinderNode newNode = new PathfinderNode(edgeNode, pathfinderNode,
                         pathfinderNode.pathToStart + link.length, link);
@@ -96,6 +89,7 @@ public class Pathfinder {
                     oldNode.pointerNode = pathfinderNode;
                     oldNode.pathToStart = pathfinderNode.pathToStart + link.length;
                     oldNode.linkToStart = link;
+                    edgeNodes.add(oldNode);
                 }
             }
         }
@@ -103,8 +97,15 @@ public class Pathfinder {
 
     private void extendGraph() {
         //retrieves and deletes the smallest/shortest node from the path
+        //todo check endnode here
         PathfinderNode smallestNode = edgeNodes.poll();
+
         if (smallestNode != null) {
+            if (smallestNode.node == endNode) {
+                isEndNodeFound = true;
+                endPathfinderNode = smallestNode;
+                return;
+            }
             expandNode(smallestNode);
         } else {
             System.out.println("ERROR: no  path found");
@@ -118,7 +119,7 @@ public class Pathfinder {
         public PathfinderNode pointerNode;
         //^^ points towards start
         public double pathToStart;
-        public Double guessDistance;
+        public double guessDistance;
         public Link linkToStart;
         //NOTE: this link is a reverse link towards home, its start node points towards home
 
