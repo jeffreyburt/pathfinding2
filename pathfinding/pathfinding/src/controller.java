@@ -7,6 +7,10 @@ public class controller {
     public static  HashMap<Integer, LinkPair> linkHashMap = new HashMap<>();
     public static Stack<Link> pathLinkStack = null;
     public static Stack<Link> pathLinkStack2 = null;
+    public static Stack<Link> exploredLinkStackAStar = new Stack<>();
+    public static Stack<Link> exploredLinkStackDs = new Stack<>();
+
+
     public static boolean drawNodes = false;
     public static int graphicsBorder = 5;
     public static double pixelsToMiles;

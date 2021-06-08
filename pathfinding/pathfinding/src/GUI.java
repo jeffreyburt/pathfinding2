@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.Map;
+import java.util.Stack;
 
 public class GUI  {
     GUI() {
@@ -44,6 +45,32 @@ public class GUI  {
          private void drawPath(Graphics g) {
             Graphics2D graphics2D = (Graphics2D) g;
             graphics2D.setColor(Color.RED);
+            if(controller.exploredLinkStackDs != null) {
+                for (Link link : controller.exploredLinkStackDs) {
+                    LinkPair linkPair = controller.linkHashMap.get(link.linkID);
+                    LinkPair.Coordinate prevCord = linkPair.coordinateLinkedList.get(0);
+                    for (LinkPair.Coordinate coordinate :
+                            linkPair.coordinateLinkedList) {
+                        graphics2D.drawLine(prevCord.xCord, prevCord.yCord, coordinate.xCord, coordinate.yCord);
+                        prevCord = coordinate;
+                    }
+                }
+            }
+             graphics2D.setColor(Color.BLUE);
+            if(controller.exploredLinkStackAStar != null) {
+                for (Link link : controller.exploredLinkStackAStar) {
+                    LinkPair linkPair = controller.linkHashMap.get(link.linkID);
+                    LinkPair.Coordinate prevCord = linkPair.coordinateLinkedList.get(0);
+                    for (LinkPair.Coordinate coordinate :
+                            linkPair.coordinateLinkedList) {
+                        graphics2D.drawLine(prevCord.xCord, prevCord.yCord, coordinate.xCord, coordinate.yCord);
+                        prevCord = coordinate;
+                    }
+                }
+            }
+
+
+             graphics2D.setColor(Color.GREEN);
             if(controller.pathLinkStack != null){
                 for (Link link: controller.pathLinkStack) {
                     LinkPair linkPair = controller.linkHashMap.get(link.linkID);
@@ -55,6 +82,8 @@ public class GUI  {
                     }
                 }
             }
+            controller.exploredLinkStackAStar = new Stack<>();
+            controller.exploredLinkStackDs = new Stack<>();
          }
 
          public void drawNodes(Graphics g){
