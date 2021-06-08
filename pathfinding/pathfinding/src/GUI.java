@@ -45,6 +45,7 @@ public class GUI  {
          private void drawPath(Graphics g) {
             Graphics2D graphics2D = (Graphics2D) g;
             graphics2D.setColor(Color.RED);
+            graphics2D.setStroke(new BasicStroke(1));
             if(controller.exploredLinkStackDs != null) {
                 for (Link link : controller.exploredLinkStackDs) {
                     LinkPair linkPair = controller.linkHashMap.get(link.linkID);
@@ -69,8 +70,8 @@ public class GUI  {
                 }
             }
 
-
-             graphics2D.setColor(Color.GREEN);
+            graphics2D.setStroke(new BasicStroke(3));
+            graphics2D.setColor(Color.GREEN);
             if(controller.pathLinkStack != null){
                 for (Link link: controller.pathLinkStack) {
                     LinkPair linkPair = controller.linkHashMap.get(link.linkID);

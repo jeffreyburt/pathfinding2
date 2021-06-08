@@ -14,7 +14,7 @@ public class controller {
     public static boolean drawNodes = false;
     public static int graphicsBorder = 5;
     public static double pixelsToMiles;
-    public static double pixelsToMilesAdjustment = 0.2;
+    public static double pixelsToMilesAdjustment = 0.9;
 
     public static void main(String[] args) {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////

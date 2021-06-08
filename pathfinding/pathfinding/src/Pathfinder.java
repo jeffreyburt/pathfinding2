@@ -73,6 +73,12 @@ public class Pathfinder {
         for (Link link : (pathfinderNode.node).awayLinkList) {
             //^^ is the link pointing towards a node that we haven't accessed yet
 
+            if(isAStar){
+                controller.exploredLinkStackAStar.add(link);
+            }else {
+                controller.exploredLinkStackDs.add(link);
+            }
+
             //gets the node at the end of the link
             Node edgeNode = link.endNode;
             //checking to see if node had already been accessed
