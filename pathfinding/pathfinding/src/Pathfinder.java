@@ -14,16 +14,7 @@ public class Pathfinder {
     private int nodesExplored = 1;
     private boolean isAStar;
     public ArrayList<Node> nodeArrayList = new ArrayList<>();
-
-    /*
-    note that this isn't truly A*
-    normal A* star uses the same units for guess distance and path to start
-    However, in this case our path to home is in miles, but our guess distance is in pixels
-    These units are convertible, however the conversion ratio changes
-    So depending on the distances dealt with in the map, the weight that our guess has changes
-    If we're dealing with thousands of miles a few hundred pixels will have some effect
-    but if we're dealing with only 10s of miles the guess distance will be incredibly over weighted :(
-    */
+    //that's a lot of data
 
 
     public Stack<Link> pathfinder(Node startNode, Node endNode, Boolean isAstar) {
@@ -50,12 +41,10 @@ public class Pathfinder {
         double pathLength = 0;
         while (workingNode.pointerNode != null) {
             pathStack.add(workingNode.linkToStart);
-            //todo below line may be useless
             nodeArrayList.add(workingNode.node);
             pathLength += workingNode.linkToStart.length;
             workingNode = workingNode.pointerNode;
         }
-        System.out.println("true length to start; " + pathLength);
         if(isAStar){
             System.out.print("Used A* to explore ");
         }else {
@@ -103,7 +92,6 @@ public class Pathfinder {
 
     private void extendGraph() {
         //retrieves and deletes the smallest/shortest node from the path
-        //todo check endnode here
         PathfinderNode smallestNode = edgeNodes.poll();
 
         if (smallestNode != null) {
