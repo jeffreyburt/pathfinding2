@@ -4,6 +4,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Stack;
 
+//written by Jeffrey Burt
+
 public class GUI {
     GUI() {
         JFrame myJFrame = new JFrame("Pathfinder");           // makes a new framed window with the given title

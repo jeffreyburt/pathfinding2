@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+//written by Jeffrey Burt
+
 public class Node {
     public int nodeID;
     public int x_cord;

@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+//Template by Andrew Merrill, Modified by Jeffrey Burt
+
 public class DataImporter {
     public void dataImporter(String dataFolder) {
         HashMap<Integer, Node> nodeHashMap = new HashMap<>();

@@ -1,5 +1,7 @@
 import java.util.*;
 
+//written by Jeffrey Burt
+
 public class Pathfinder {
     //stores pathfinder nodes in order to avoid overlaps
     private HashMap<Node, PathfinderNode> pathfinderNodeHashtable = new HashMap<>();

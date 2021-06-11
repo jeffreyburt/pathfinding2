@@ -1,5 +1,7 @@
 import java.util.LinkedList;
 
+//written by Jeffrey Burt
+
 public class LinkPair {
     public Link link1;
     public Link link2;

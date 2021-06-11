@@ -1,4 +1,4 @@
-import java.util.List;
+//written by Jeffrey Burt
 
 public class Link {
     public int linkID;
